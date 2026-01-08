@@ -20,7 +20,7 @@ export default function BookingForm({ hotelId }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setStatus({ loading: true, message: "Submitting...", error: false });
+    setStatus({ loading: true, message: "", error: false });
 
     try {
       const res = await fetch("/api/bookings", {
@@ -34,7 +34,7 @@ export default function BookingForm({ hotelId }) {
 
       setStatus({
         loading: false,
-        message: "Booking confirmed!",
+        message: "Booking confirmed! Check your email for details.",
         error: false,
       });
       setForm({
@@ -54,74 +54,126 @@ export default function BookingForm({ hotelId }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md">
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-700">Name</label>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      {/* Name Field */}
+      <div>
+        <label className="label">Full Name</label>
         <input
           type="text"
-          placeholder="Your Name"
+          placeholder="John Doe"
           value={form.name}
           onChange={(e) => update("name", e.target.value)}
           required
-          className="p-2 rounded border border-gray-300"
+          className="input"
         />
       </div>
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-700">Email</label>
+
+      {/* Email Field */}
+      <div>
+        <label className="label">Email</label>
         <input
           type="email"
-          placeholder="Your Email"
+          placeholder="john@example.com"
           value={form.email}
           onChange={(e) => update("email", e.target.value)}
           required
-          className="p-2 rounded border border-gray-300"
+          className="input"
         />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-2">
-          <label className="text-sm text-gray-700">Check-in</label>
+
+      {/* Date Fields */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        <div>
+          <label className="label">Check-in</label>
           <input
             type="date"
             value={form.checkInDate}
             onChange={(e) => update("checkInDate", e.target.value)}
             required
-            className="p-2 rounded border border-gray-300"
+            className="input"
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-sm text-gray-700">Check-out</label>
+        <div>
+          <label className="label">Check-out</label>
           <input
             type="date"
             value={form.checkOutDate}
             onChange={(e) => update("checkOutDate", e.target.value)}
             required
-            className="p-2 rounded border border-gray-300"
+            className="input"
           />
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <label className="text-sm text-gray-700">Guests</label>
+
+      {/* Guests Field */}
+      <div>
+        <label className="label">Guests</label>
         <input
           type="number"
           min={1}
+          max={10}
           value={form.guests}
           onChange={(e) => update("guests", e.target.value)}
           required
-          className="p-2 rounded border border-gray-300"
+          className="input"
         />
       </div>
+
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={status.loading}
-        className="p-3 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors disabled:opacity-60"
+        className="btn btn-primary"
+        style={{ 
+          width: '100%', 
+          padding: '16px',
+          marginTop: '8px',
+          opacity: status.loading ? 0.7 : 1,
+          cursor: status.loading ? 'not-allowed' : 'pointer'
+        }}
       >
-        {status.loading ? "Booking..." : "Book Now"}
+        {status.loading ? (
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ 
+              width: '16px', 
+              height: '16px', 
+              border: '2px solid rgba(255,255,255,0.3)',
+              borderTopColor: 'white',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite'
+            }} />
+            Processing...
+          </span>
+        ) : (
+          "Book Now"
+        )}
       </button>
+
+      {/* Status Message */}
       {status.message && (
-        <p className={status.error ? "text-red-600" : "text-green-700"}>
+        <div style={{
+          padding: '14px 16px',
+          borderRadius: 'var(--radius-md)',
+          background: status.error 
+            ? 'rgba(239, 68, 68, 0.15)' 
+            : 'rgba(34, 197, 94, 0.15)',
+          border: `1px solid ${status.error ? 'rgba(239, 68, 68, 0.3)' : 'rgba(34, 197, 94, 0.3)'}`,
+          color: status.error ? '#f87171' : '#4ade80',
+          fontSize: '0.9rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          <span>{status.error ? '❌' : '✓'}</span>
           {status.message}
-        </p>
+        </div>
       )}
+
+      <style jsx>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </form>
   );
 }
