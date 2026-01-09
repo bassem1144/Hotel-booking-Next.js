@@ -1,7 +1,16 @@
 import Link from "next/link";
-import hotels from "./hotels/hotels";
+import prisma from "@/lib/prisma";
 
-export default function Home() {
+async function getHotels() {
+  const hotels = await prisma.hotel.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+  return hotels;
+}
+
+export default async function Home() {
+  const hotels = await getHotels();
+
   return (
     <div className="page">
       {/* Hero Section */}
@@ -60,7 +69,7 @@ export default function Home() {
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent'
                       }}>
-                        $199
+                        ${hotel.price}
                       </span>
                       <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>/night</span>
                     </div>
