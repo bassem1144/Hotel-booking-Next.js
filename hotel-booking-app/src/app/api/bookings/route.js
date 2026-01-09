@@ -1,10 +1,28 @@
 import { NextResponse } from "next/server";
-import hotels from "../../hotels/hotels";
-
-const bookings = [];
+import prisma from "@/lib/prisma";
 
 export async function GET() {
-  return NextResponse.json({ bookings });
+  try {
+    const bookings = await prisma.booking.findMany({
+      include: {
+        hotel: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    // Transform to include hotelName for backward compatibility
+    const bookingsWithHotelName = bookings.map((booking) => ({
+      ...booking,
+      hotelName: booking.hotel.name,
+    }));
+
+    return NextResponse.json({ bookings: bookingsWithHotelName });
+  } catch (error) {
+    console.error("Failed to fetch bookings:", error);
+    return NextResponse.json({ error: "Failed to fetch bookings" }, { status: 500 });
+  }
 }
 
 export async function POST(request) {
@@ -41,27 +59,38 @@ export async function POST(request) {
       );
     }
 
-    // get hotel name by id
-    const hotel = hotels.find((h) => h.id === hotelId);
+    // Verify hotel exists
+    const hotel = await prisma.hotel.findUnique({
+      where: { id: hotelId },
+    });
+
     if (!hotel) {
       return NextResponse.json({ error: "Invalid hotel ID" }, { status: 400 });
     }
 
-    const booking = {
-      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      name,
-      email,
-      checkInDate,
-      checkOutDate,
-      guests: guestsNumber,
-      hotelId,
-      hotelName: hotel.name,
-      createdAt: new Date().toISOString(),
-    };
-    bookings.push(booking);
+    const booking = await prisma.booking.create({
+      data: {
+        name,
+        email,
+        checkInDate,
+        checkOutDate,
+        guests: guestsNumber,
+        hotelId,
+      },
+      include: {
+        hotel: true,
+      },
+    });
 
-    return NextResponse.json({ success: true, booking });
+    return NextResponse.json({
+      success: true,
+      booking: {
+        ...booking,
+        hotelName: booking.hotel.name,
+      },
+    });
   } catch (err) {
+    console.error("Booking error:", err);
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 }
