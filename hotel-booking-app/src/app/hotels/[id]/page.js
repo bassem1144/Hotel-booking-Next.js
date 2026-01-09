@@ -1,21 +1,48 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import BookingForm from "../BookingForm";
-import hotels from "../hotels";
+import prisma from "@/lib/prisma";
+
+async function getHotel(id) {
+  const hotel = await prisma.hotel.findUnique({
+    where: { id },
+  });
+  return hotel;
+}
 
 export default async function HotelPage({ params }) {
   const resolvedParams = await params;
-  const hotel = hotels.find((h) => h.id === resolvedParams.id);
+  const hotel = await getHotel(resolvedParams.id);
+  
   if (!hotel) return notFound();
 
-  const amenities = [
-    { icon: "🏊", name: "Pool" },
-    { icon: "📶", name: "Free WiFi" },
-    { icon: "🅿️", name: "Parking" },
-    { icon: "🍳", name: "Breakfast" },
-    { icon: "❄️", name: "AC" },
-    { icon: "🏋️", name: "Gym" },
-  ];
+  // Parse amenities from comma-separated string
+  const amenityIcons = {
+    Pool: "🏊",
+    WiFi: "📶",
+    Parking: "🅿️",
+    Breakfast: "🍳",
+    AC: "❄️",
+    Gym: "🏋️",
+    Spa: "💆",
+    "Beach Access": "🏖️",
+    Fireplace: "🔥",
+    "Ski Storage": "🎿",
+    "Hot Tub": "🛁",
+    Restaurant: "🍽️",
+    "Room Service": "🛎️",
+    Concierge: "👨‍💼",
+    Bar: "🍸",
+    "Private Villa": "🏡",
+    "Butler Service": "🎩",
+    "Golf Course": "⛳",
+    "Private Beach": "🏝️",
+  };
+
+  const amenities = hotel.amenities.split(",").map((a) => ({
+    name: a.trim(),
+    icon: amenityIcons[a.trim()] || "✨",
+  }));
 
   return (
     <div className="page">
@@ -57,8 +84,11 @@ export default async function HotelPage({ params }) {
             
             {/* Rating */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '24px' }}>
-              <span style={{ color: '#facc15', fontSize: '1.2rem' }}>★★★★★</span>
-              <span style={{ color: 'var(--text-secondary)' }}>5.0 (128 reviews)</span>
+              <span style={{ color: '#facc15', fontSize: '1.2rem' }}>
+                {"★".repeat(Math.floor(hotel.rating))}
+                {hotel.rating % 1 >= 0.5 ? "½" : ""}
+              </span>
+              <span style={{ color: 'var(--text-secondary)' }}>{hotel.rating} (128 reviews)</span>
             </div>
 
             <p style={{ 
@@ -80,7 +110,7 @@ export default async function HotelPage({ params }) {
                 gridTemplateColumns: 'repeat(3, 1fr)', 
                 gap: '16px' 
               }}>
-                {amenities.map((amenity, i) => (
+                {amenities.slice(0, 6).map((amenity, i) => (
                   <div key={i} style={{ 
                     display: 'flex', 
                     alignItems: 'center', 
@@ -110,7 +140,7 @@ export default async function HotelPage({ params }) {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ color: 'var(--text-secondary)' }}>Cancellation</span>
-                  <span style={{ color: '#4ade80' }}>Free up to 48h before</span>
+                  <span style={{ color: '#16a34a' }}>Free up to 48h before</span>
                 </div>
               </div>
             </div>
@@ -135,7 +165,7 @@ export default async function HotelPage({ params }) {
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent'
               }}>
-                $199
+                ${hotel.price}
               </span>
               <span style={{ color: 'var(--text-muted)' }}>/ night</span>
             </div>
