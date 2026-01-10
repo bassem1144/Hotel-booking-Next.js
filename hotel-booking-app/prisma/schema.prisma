@@ -13,8 +13,10 @@ model User {
   name      String
   email     String    @unique
   password  String
+  role      String    @default("user") // "admin" | "partner" | "user"
   createdAt DateTime  @default(now())
   bookings  Booking[]
+  hotels    Hotel[]   // Hotels owned by this user
 }
 
 model Hotel {
@@ -29,6 +31,9 @@ model Hotel {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   bookings    Booking[]
+  
+  owner       User?     @relation(fields: [ownerId], references: [id])
+  ownerId     String?
 }
 
 model Booking {
