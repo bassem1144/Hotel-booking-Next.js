@@ -1,9 +1,19 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
 import prisma from "@/lib/prisma";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET() {
   try {
+    const session = await getServerSession(authOptions);
+    
+    // If logged in, only show user's bookings
+    const whereClause = session?.user?.id 
+      ? { userId: session.user.id }
+      : {};
+
     const bookings = await prisma.booking.findMany({
+      where: whereClause,
       include: {
         hotel: true,
       },
@@ -12,7 +22,6 @@ export async function GET() {
       },
     });
 
-    // Transform to include hotelName for backward compatibility
     const bookingsWithHotelName = bookings.map((booking) => ({
       ...booking,
       hotelName: booking.hotel.name,
@@ -27,6 +36,7 @@ export async function GET() {
 
 export async function POST(request) {
   try {
+    const session = await getServerSession(authOptions);
     const { name, email, checkInDate, checkOutDate, guests, hotelId } =
       await request.json();
 
@@ -70,12 +80,13 @@ export async function POST(request) {
 
     const booking = await prisma.booking.create({
       data: {
-        name,
-        email,
+        guestName: name,
+        guestEmail: email,
         checkInDate,
         checkOutDate,
         guests: guestsNumber,
         hotelId,
+        userId: session?.user?.id || null,
       },
       include: {
         hotel: true,
