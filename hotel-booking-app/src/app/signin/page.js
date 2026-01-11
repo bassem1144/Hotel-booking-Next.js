@@ -27,7 +27,16 @@ export default function SignInPage() {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push("/");
+        // Fetch session to check user role
+        const sessionRes = await fetch("/api/auth/session");
+        const session = await sessionRes.json();
+        
+        // Redirect based on role
+        if (session?.user?.role === "partner" || session?.user?.role === "admin") {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
         router.refresh();
       }
     } catch (err) {
