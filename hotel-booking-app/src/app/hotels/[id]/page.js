@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import BookingForm from "../BookingForm";
+import BookingSection from "../BookingSection";
 import prisma from "@/lib/prisma";
 
 async function getHotel(id) {
@@ -152,37 +152,7 @@ export default async function HotelPage({ params }) {
             position: 'sticky', 
             top: 'calc(var(--nav-height) + 24px)' 
           }}>
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'baseline', 
-              gap: '8px', 
-              marginBottom: '24px' 
-            }}>
-              <span style={{ 
-                fontSize: '2.5rem', 
-                fontWeight: '700',
-                background: 'var(--gradient-primary)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}>
-                ${hotel.price}
-              </span>
-              <span style={{ color: 'var(--text-muted)' }}>/ night</span>
-            </div>
-
-            <BookingForm hotelId={hotel.id} />
-
-            <div style={{ 
-              marginTop: '20px', 
-              padding: '16px', 
-              background: 'var(--bg-card)', 
-              borderRadius: 'var(--radius-md)',
-              textAlign: 'center'
-            }}>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                🔒 Secure booking • Free cancellation
-              </p>
-            </div>
+            <BookingSection hotelId={hotel.id} price={hotel.price} />
           </div>
         </div>
 
