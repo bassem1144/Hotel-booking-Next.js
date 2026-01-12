@@ -153,6 +153,7 @@ export default function EditHotelPage() {
           max-width: 600px;
           margin: 0 auto;
           padding: 2rem;
+          padding-top: 6rem;
         }
         .loading { text-align: center; padding: 4rem; }
         .page-header { margin-bottom: 2rem; }

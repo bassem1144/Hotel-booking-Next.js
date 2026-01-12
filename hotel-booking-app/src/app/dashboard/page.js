@@ -71,13 +71,6 @@ export default function DashboardPage() {
             <p>Total Bookings</p>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon">💰</div>
-          <div className="stat-info">
-            <h3>${stats.revenue.toLocaleString()}</h3>
-            <p>Revenue</p>
-          </div>
-        </div>
       </div>
 
       <div className="dashboard-nav">
@@ -102,6 +95,7 @@ export default function DashboardPage() {
           max-width: 1200px;
           margin: 0 auto;
           padding: 2rem;
+          padding-top: 6rem;
         }
         .dashboard-loading {
           display: flex;

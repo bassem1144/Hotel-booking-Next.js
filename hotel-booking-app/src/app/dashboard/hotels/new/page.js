@@ -132,6 +132,7 @@ export default function NewHotelPage() {
           max-width: 600px;
           margin: 0 auto;
           padding: 2rem;
+          padding-top: 6rem;
         }
         .loading {
           text-align: center;
