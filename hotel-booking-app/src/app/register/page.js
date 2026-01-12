@@ -69,7 +69,8 @@ export default function RegisterPage() {
       alignItems: 'center',
       justifyContent: 'center',
       background: 'var(--gradient-hero)',
-      padding: '24px'
+      padding: '24px',
+      paddingTop: '100px',
     }}>
       <div className="glass-card" style={{
         width: '100%',
