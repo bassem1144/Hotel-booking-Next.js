@@ -82,8 +82,8 @@ export default function BookingForm({ hotelId }) {
       </div>
 
       {/* Date Fields */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-        <div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '12px' }}>
+        <div style={{ minWidth: 0 }}>
           <label className="label">Check-in</label>
           <input
             type="date"
@@ -91,9 +91,10 @@ export default function BookingForm({ hotelId }) {
             onChange={(e) => update("checkInDate", e.target.value)}
             required
             className="input"
+            style={{ width: '100%', minWidth: 0 }}
           />
         </div>
-        <div>
+        <div style={{ minWidth: 0 }}>
           <label className="label">Check-out</label>
           <input
             type="date"
@@ -101,6 +102,7 @@ export default function BookingForm({ hotelId }) {
             onChange={(e) => update("checkOutDate", e.target.value)}
             required
             className="input"
+            style={{ width: '100%', minWidth: 0 }}
           />
         </div>
       </div>
