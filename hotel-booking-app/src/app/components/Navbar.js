@@ -1,79 +1,100 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import AuthButton from "./AuthButton";
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const [menuOpen, setMenuOpen] = useState(false);
   const role = session?.user?.role;
   const isAdmin = role === "admin";
   const isPartner = role === "partner";
-  const isStaff = isAdmin || isPartner;
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const closeMenu = () => setMenuOpen(false);
+
+  // Get navigation links based on role
+  const getNavLinks = () => {
+    if (isAdmin) {
+      return [
+        { href: "/admin", label: "Dashboard" },
+        { href: "/admin/users", label: "Users" },
+        { href: "/admin/hotels", label: "Hotels" },
+        { href: "/admin/bookings", label: "Bookings" },
+      ];
+    } else if (isPartner) {
+      return [
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/dashboard/hotels", label: "My Hotels" },
+        { href: "/dashboard/bookings", label: "Reservations" },
+      ];
+    } else {
+      const links = [
+        { href: "/", label: "Home" },
+        { href: "/about", label: "About" },
+      ];
+      if (session) {
+        links.push({ href: "/bookings", label: "My Bookings" });
+      }
+      return links;
+    }
+  };
+
+  const navLinks = getNavLinks();
+  const homeLink = isAdmin ? "/admin" : isPartner ? "/dashboard" : "/";
 
   return (
-    <nav className={`nav ${isAdmin ? 'nav-admin' : ''} ${isPartner ? 'nav-partner' : ''}`}>
-      <div className="nav-container">
-        <Link href={isAdmin ? "/admin" : isPartner ? "/dashboard" : "/"} className="nav-logo">
-          NextStay {isAdmin && <span className="role-badge admin">Admin</span>}
-          {isPartner && <span className="role-badge partner">Partner</span>}
-        </Link>
-        <div className="nav-links">
-          {isAdmin ? (
-            <>
-              <Link href="/admin" className="nav-link">Dashboard</Link>
-              <Link href="/admin/users" className="nav-link">Users</Link>
-              <Link href="/admin/hotels" className="nav-link">Hotels</Link>
-              <Link href="/admin/bookings" className="nav-link">Bookings</Link>
-            </>
-          ) : isPartner ? (
-            <>
-              <Link href="/dashboard" className="nav-link">Dashboard</Link>
-              <Link href="/dashboard/hotels" className="nav-link">My Hotels</Link>
-              <Link href="/dashboard/bookings" className="nav-link">Reservations</Link>
-            </>
-          ) : (
-            <>
-              <Link href="/" className="nav-link">Home</Link>
-              <Link href="/about" className="nav-link">About</Link>
-              {session && (
-                <Link href="/bookings" className="nav-link">My Bookings</Link>
-              )}
-            </>
-          )}
-          <div style={{ marginLeft: '8px' }}>
-            <AuthButton />
+    <>
+      <nav className={`nav ${isAdmin ? 'nav-admin' : ''} ${isPartner ? 'nav-partner' : ''}`}>
+        <div className="nav-container">
+          <Link href={homeLink} className="nav-logo" onClick={closeMenu}>
+            NextStay {isAdmin && <span className="role-badge admin">Admin</span>}
+            {isPartner && <span className="role-badge partner">Partner</span>}
+          </Link>
+          
+          {/* Desktop Navigation */}
+          <div className="nav-links">
+            {navLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="nav-link">
+                {link.label}
+              </Link>
+            ))}
+            <div style={{ marginLeft: '8px' }}>
+              <AuthButton />
+            </div>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className={`mobile-menu-btn ${menuOpen ? 'open' : ''}`}
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+        {navLinks.map((link) => (
+          <Link 
+            key={link.href} 
+            href={link.href} 
+            className="mobile-menu-link"
+            onClick={closeMenu}
+          >
+            {link.label}
+          </Link>
+        ))}
+        <div style={{ marginTop: '16px', padding: '0 16px' }}>
+          <AuthButton />
         </div>
       </div>
-
-      <style jsx>{`
-        .nav-admin {
-          background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%) !important;
-          border-bottom: 2px solid #6366f1 !important;
-        }
-        .nav-partner {
-          background: linear-gradient(135deg, #1e3a5f 0%, #0c2340 100%) !important;
-          border-bottom: 2px solid #8b5cf6 !important;
-        }
-        .role-badge {
-          font-size: 0.65rem;
-          padding: 2px 8px;
-          border-radius: 12px;
-          margin-left: 8px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-        .role-badge.admin {
-          background: #ef4444;
-          color: white;
-        }
-        .role-badge.partner {
-          background: #8b5cf6;
-          color: white;
-        }
-      `}</style>
-    </nav>
+    </>
   );
 }
