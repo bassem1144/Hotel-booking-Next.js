@@ -68,13 +68,8 @@ export default async function HotelPage({ params }) {
       </div>
 
       {/* Content */}
-      <div className="container" style={{ marginTop: '-80px', position: 'relative', zIndex: 1 }}>
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'minmax(0, 1fr) 400px', 
-          gap: '40px',
-          alignItems: 'start'
-        }}>
+      <div className="container -mt-20 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
           {/* Left Column - Hotel Info */}
           <div>
             <span className="badge badge-info" style={{ marginBottom: '16px' }}>
@@ -105,11 +100,7 @@ export default async function HotelPage({ params }) {
             {/* Amenities */}
             <div className="glass-card" style={{ padding: '24px', marginBottom: '32px' }}>
               <h3 style={{ marginBottom: '20px' }}>Amenities</h3>
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(3, 1fr)', 
-                gap: '16px' 
-              }}>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
                 {amenities.slice(0, 6).map((amenity, i) => (
                   <div key={i} style={{ 
                     display: 'flex', 
@@ -147,11 +138,7 @@ export default async function HotelPage({ params }) {
           </div>
 
           {/* Right Column - Booking Card */}
-          <div className="glass-card" style={{ 
-            padding: '32px', 
-            position: 'sticky', 
-            top: 'calc(var(--nav-height) + 24px)' 
-          }}>
+          <div className="glass-card w-full lg:w-[400px] lg:sticky lg:top-24 shrink-0" style={{ padding: '20px' }}>
             <BookingSection hotelId={hotel.id} price={hotel.price} />
           </div>
         </div>
