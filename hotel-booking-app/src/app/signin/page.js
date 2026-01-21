@@ -87,27 +87,10 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="page" style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'var(--gradient-hero)',
-      padding: '24px',
-      paddingTop: '100px',
-    }}>
-      <div style={{ 
-        display: 'flex', 
-        gap: '24px', 
-        alignItems: 'stretch',
-        maxWidth: '800px',
-        width: '100%',
-      }}>
+    <div className="page min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 p-4 pt-24">
+      <div className="flex flex-col md:flex-row gap-6 max-w-[800px] w-full">
         {/* Sign In Form */}
-        <div className="glass-card" style={{ 
-          flex: 1,
-          padding: '48px 40px',
-        }}>
+        <div className="glass-card flex-1" style={{ padding: '24px' }}>
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
             <Link href="/" style={{
               fontSize: '2rem',
@@ -189,15 +172,7 @@ export default function SignInPage() {
         </div>
 
         {/* Demo Quick Sign-In Section */}
-        <div style={{
-          width: '220px',
-          padding: '24px',
-          background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-          borderRadius: '16px',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
+        <div className="w-full md:w-[220px] bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-white/10 flex flex-col" style={{ padding: '20px' }}>
           <div style={{ 
             textAlign: 'center', 
             marginBottom: '16px',
