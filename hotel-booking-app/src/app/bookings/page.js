@@ -83,18 +83,11 @@ export default function BookingsPage() {
         {!loading && !error && bookings.length > 0 && (
           <div className="stagger-children" style={{ display: 'grid', gap: '20px' }}>
             {bookings.map((b) => (
-              <article key={b.id} className="glass-card" style={{ 
-                padding: '0',
-                overflow: 'hidden',
-                display: 'grid',
-                gridTemplateColumns: '200px 1fr',
-              }}>
+              <article key={b.id} className="glass-card p-0 overflow-hidden flex flex-col sm:flex-row">
                 {/* Image placeholder */}
-                <div style={{ 
+                <div className="w-full sm:w-[200px] shrink-0 flex items-center justify-center" style={{ 
                   background: 'var(--gradient-card)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
+                  minHeight: '120px'
                 }}>
                   <span style={{ fontSize: '3rem', opacity: 0.5 }}>🏨</span>
                 </div>
@@ -119,14 +112,7 @@ export default function BookingsPage() {
                     </span>
                   </div>
 
-                  <div style={{ 
-                    display: 'grid', 
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gap: '16px',
-                    padding: '16px',
-                    background: 'var(--bg-card)',
-                    borderRadius: 'var(--radius-md)'
-                  }}>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 p-4 bg-white/50 rounded-xl">
                     <div>
                       <span style={{ 
                         display: 'block', 
