@@ -35,7 +35,7 @@ export default async function Home() {
       </section>
 
       {/* Hotels Section */}
-      <section id="hotels" style={{ padding: '80px 0', background: 'var(--bg-secondary)' }}>
+      <section id="hotels" className="section-padding" style={{ background: 'var(--bg-secondary)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <h2 style={{ marginBottom: '16px' }}>
@@ -49,9 +49,7 @@ export default async function Home() {
           <div className="hotels-grid stagger-children">
             {hotels.map((hotel) => (
               <article key={hotel.id} className="hotel-card">
-                <div className="hotel-card-image">
-                  {/* Gradient placeholder with emoji - replace with real images later */}
-                </div>
+                <div className="hotel-card-image" />
                 <div className="hotel-card-content">
                   <span className="hotel-card-location">
                     📍 {hotel.location}
@@ -85,7 +83,7 @@ export default async function Home() {
       </section>
 
       {/* Features Section */}
-      <section style={{ padding: '80px 0' }}>
+      <section className="section-padding">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <h2 style={{ marginBottom: '16px' }}>
@@ -96,13 +94,7 @@ export default async function Home() {
             </p>
           </div>
           
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '24px',
-            maxWidth: '900px',
-            margin: '0 auto'
-          }}>
+          <div className="features-grid">
             {[
               { icon: '✨', title: 'Premium Selection', desc: 'Hand-picked luxury hotels vetted for quality' },
               { icon: '💰', title: 'Best Price Guarantee', desc: 'We match any lower price you find' },
@@ -122,10 +114,10 @@ export default async function Home() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ 
-        padding: '100px 24px', 
+      <section className="section-padding" style={{ 
         background: 'var(--gradient-card)',
-        textAlign: 'center'
+        textAlign: 'center',
+        padding: '60px 16px'
       }}>
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h2 style={{ marginBottom: '16px' }}>
