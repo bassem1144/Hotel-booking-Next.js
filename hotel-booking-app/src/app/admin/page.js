@@ -98,56 +98,6 @@ export default function AdminDashboardPage() {
           </div>
         </Link>
       </div>
-
-      <style jsx>{`
-        .admin { max-width: 1200px; margin: 0 auto; padding: 2rem; padding-top: 6rem; }
-        .loading { text-align: center; padding: 4rem; }
-        .admin-header { margin-bottom: 2rem; }
-        .admin-header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .admin-header p { color: #6b7280; }
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 1rem;
-          margin-bottom: 2rem;
-        }
-        .stat-card {
-          background: white;
-          border-radius: 16px;
-          padding: 1.5rem;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-        .stat-icon { font-size: 2rem; }
-        .stat-info h3 { font-size: 1.5rem; font-weight: 700; }
-        .stat-info p { color: #6b7280; font-size: 0.875rem; }
-        .admin-nav {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 1rem;
-        }
-        .admin-link {
-          background: white;
-          border-radius: 16px;
-          padding: 1.5rem;
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          text-decoration: none;
-          color: inherit;
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-          transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .admin-link:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        }
-        .admin-link span { font-size: 2rem; }
-        .admin-link h3 { font-weight: 600; margin-bottom: 0.25rem; }
-        .admin-link p { color: #6b7280; font-size: 0.875rem; }
-      `}</style>
     </div>
   );
 }
