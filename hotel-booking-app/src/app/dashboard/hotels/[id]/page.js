@@ -147,66 +147,6 @@ export default function EditHotelPage() {
           {saving ? "Saving..." : "Save Changes"}
         </button>
       </form>
-
-      <style jsx>{`
-        .edit-hotel-page {
-          max-width: 600px;
-          margin: 0 auto;
-          padding: 2rem;
-          padding-top: 6rem;
-        }
-        .loading { text-align: center; padding: 4rem; }
-        .page-header { margin-bottom: 2rem; }
-        .back-link {
-          color: #8b5cf6;
-          text-decoration: none;
-          font-size: 0.875rem;
-          display: block;
-          margin-bottom: 0.5rem;
-        }
-        .page-header h1 { font-size: 1.75rem; font-weight: 700; }
-        .hotel-form {
-          background: white;
-          padding: 2rem;
-          border-radius: 16px;
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        }
-        .error {
-          background: #fef2f2;
-          color: #dc2626;
-          padding: 1rem;
-          border-radius: 8px;
-          margin-bottom: 1rem;
-        }
-        .form-group { margin-bottom: 1.5rem; }
-        label {
-          display: block;
-          font-weight: 500;
-          margin-bottom: 0.5rem;
-        }
-        input, textarea {
-          width: 100%;
-          padding: 0.75rem;
-          border: 1px solid #d1d5db;
-          border-radius: 8px;
-          font-size: 1rem;
-        }
-        input:focus, textarea:focus {
-          outline: none;
-          border-color: #8b5cf6;
-        }
-        .btn-submit {
-          width: 100%;
-          padding: 1rem;
-          background: linear-gradient(135deg, #8b5cf6, #6366f1);
-          color: white;
-          border: none;
-          border-radius: 8px;
-          font-weight: 600;
-          cursor: pointer;
-        }
-        .btn-submit:disabled { opacity: 0.5; }
-      `}</style>
     </div>
   );
 }

@@ -60,9 +60,9 @@ export default function DashboardHotelsPage() {
           </button>
         </div>
       ) : (
-        <div className="hotels-grid">
+        <div className="hotels-list">
           {hotels.map((hotel) => (
-            <div key={hotel.id} className="hotel-card">
+            <div key={hotel.id} className="hotel-list-card">
               <div className="hotel-info">
                 <h3>{hotel.name}</h3>
                 <p className="location">{hotel.location}</p>
@@ -78,91 +78,6 @@ export default function DashboardHotelsPage() {
           ))}
         </div>
       )}
-
-      <style jsx>{`
-        .dashboard-page {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2rem;
-          padding-top: 6rem;
-        }
-        .loading {
-          text-align: center;
-          padding: 4rem;
-        }
-        .page-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 2rem;
-        }
-        .back-link {
-          color: #8b5cf6;
-          text-decoration: none;
-          font-size: 0.875rem;
-          display: block;
-          margin-bottom: 0.5rem;
-        }
-        .page-header h1 {
-          font-size: 1.75rem;
-          font-weight: 700;
-        }
-        .btn-primary {
-          background: linear-gradient(135deg, #8b5cf6, #6366f1);
-          color: white;
-          border: none;
-          padding: 0.75rem 1.5rem;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 500;
-        }
-        .empty-state {
-          text-align: center;
-          padding: 4rem;
-          background: white;
-          border-radius: 16px;
-        }
-        .empty-state p {
-          margin-bottom: 1rem;
-          color: #6b7280;
-        }
-        .hotels-grid {
-          display: grid;
-          gap: 1rem;
-        }
-        .hotel-card {
-          background: white;
-          border-radius: 12px;
-          padding: 1.5rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
-        }
-        .hotel-info h3 {
-          font-weight: 600;
-          margin-bottom: 0.25rem;
-        }
-        .location, .bookings {
-          color: #6b7280;
-          font-size: 0.875rem;
-        }
-        .price {
-          color: #8b5cf6;
-          font-weight: 600;
-        }
-        .btn-edit {
-          padding: 0.5rem 1rem;
-          background: #f3f4f6;
-          border-radius: 6px;
-          text-decoration: none;
-          color: #374151;
-          font-size: 0.875rem;
-        }
-        .btn-edit:hover {
-          background: #e5e7eb;
-        }
-      `}</style>
     </div>
   );
 }
