@@ -170,12 +170,6 @@ export default function BookingForm({ hotelId }) {
           {status.message}
         </div>
       )}
-
-      <style jsx>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </form>
   );
 }
